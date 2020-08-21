@@ -14,8 +14,8 @@ logger = getLogger(__name__)
 
 class FileAgent(CustomTransferAgent):
 
-    def __init__(self, lfs_storage_remote, temp, **kwargs):
-        self.lfs_storage_remote = lfs_storage_remote
+    def __init__(self, lfs_storage_local, temp, **kwargs):
+        self.lfs_storage_local = lfs_storage_local
         self.temp_dir = temp
         logger.info("Wait a little to avoid pipe broken")
         sleep(random())
@@ -34,7 +34,7 @@ class FileAgent(CustomTransferAgent):
             "bytesSinceLast": 0,
         })
         try:
-            first = os.path.join(self.lfs_storage_remote, oid[0:2])
+            first = os.path.join(self.lfs_storage_local, oid[0:2])
             if not os.path.isdir(first):
                 os.mkdir(first)
             second = os.path.join(first, oid[2:4])
@@ -61,7 +61,7 @@ class FileAgent(CustomTransferAgent):
             "bytesSinceLast": 0,
         })
         try:
-            path = os.path.join(self.lfs_storage_remote, oid[0:2], oid[2:4], oid)
+            path = os.path.join(self.lfs_storage_local, oid[0:2], oid[2:4], oid)
             shutil.copyfile(path, temp_path)
             yield json.dumps({
                 "event": "complete",

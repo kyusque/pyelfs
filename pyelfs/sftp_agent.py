@@ -79,6 +79,8 @@ class SftpAgent(CustomTransferAgent):
             "event": "complete",
             "oid": oid,
         })
+        logger.info("Wait a little to avoid pipe broken")
+        sleep(random())
 
     @stage_logger("Download Stage")
     def download(self, event, oid, size, action):
